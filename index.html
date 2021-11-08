@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://smtpjs.com/v3/smtp.js">
+    </script>
+    <script src="https://kit.fontawesome.com/7cc2d38101.js" crossorigin="anonymous">
+    </script>
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <form action="" class="login" method="post">
+            <p class="title">Giriş</p>
+            <span>
+                <input id="mail" type="mail" placeholder="Mail" required />
+                <i class="fa fa-envelope"></i>
+            </span>
+            <span>
+                <input id="parola" type="password" placeholder="Password" required />
+                <i class="fa fa-key"></i>
+            </span>
+            <span style="display:none;">
+                <input id="code" type="code" placeholder="Code" required />
+                <i class="fa fa-check"></i>
+            </span>
+            <a href="#" id="forgotPass">Şifremi Unuttum?</a>
+
+            <button type="button" id="btn">
+                <i class="spinner"></i>
+                <span class="state" id="giris">Giriş</span>
+            </button>
+        </form>
+
+        </p>
+    </div>
+
+
+    <script type="text/javascript">
+        var sonuc = '';
+
+
+
+        function sifre() {
+            var sifre = "";
+            //if(semboller.indexOf(0) > -1)
+            sifre += '0123456789'
+            sonuc = '';
+
+            for (var i = 0; i < 5; ++i) {
+                sonuc += sifre[Math.floor(Math.random() * sifre.length)]
+            }
+            return sonuc;
+        }
+        var btn = document.querySelector('#btn');
+        var mail = document.querySelector('#mail');
+        var password = document.querySelector('#password');
+        var code = document.querySelector('#code');
+
+        btn.addEventListener('click', () => {
+
+
+            if (document.getElementById('code').parentNode.style.display === 'none') {
+                if (mail.value !== '') {
+                    if (parola.value !== '') {
+                        mail.parentNode.style.display = 'none'
+                        parola.parentNode.style.display = 'none'
+                        document.getElementById('code').parentNode.style.display = 'inline'
+                        document.getElementById('forgotPass').style.display = 'none'
+                        document.getElementById('giris').innerHTML = 'Kodu Doğrulayın'
+                        if (mail != null || password != null) {
+                            sifre();
+                            console.log({
+                                Host: "smtp.gmail.com",
+                                Username: "azad56azad56@gmail.com",
+                                Password: "Azad.1212",
+                                To: mail.value,
+                                From: "azad56azad56@gmail.com",
+                                Subject: "" + sonuc,
+                                Body: "" + sonuc,
+                            });
+
+                            console.log(sonuc);
+                            Email.send({
+                                    SecureToken: "ead0c077-8779-46f5-98e3-12e4ad945c98",
+                                    To: mail.value,
+                                    From: "azad56azad56@gmail.com",
+                                    Subject: "Verification Code",
+                                    Body: "" + sonuc,
+                                })
+                                .then(function(message) {
+                                    alert("mail sent successfully")
+                                });
+                            console.log("Email sended.");
+
+                        }
+                    }
+                }
+            } else {
+                if (document.getElementById('code').value !== '') {
+                    if (document.getElementById('code').value === sonuc) {
+                        alert("Kodunuz Doğrulandı")
+                    } else {
+                        alert("Kod hatalı! Lütfen tekrar deneyin.")
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
